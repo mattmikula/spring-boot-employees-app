@@ -137,11 +137,24 @@ public class EmployeeControllerTests {
         String employeeJson = json(new Employee(
                 "First", "N", "User", LocalDate.parse("1985-01-02"), LocalDate.parse("2018-06-03"), EmployeeStatus.ACTIVE));
 
-        this.mockMvc.perform(get(this.endpoint
+        // confirm update call is accepted.
+        this.mockMvc.perform(put(this.endpoint
                 + this.employeeOne.getId())
                 .contentType(this.contentType)
                 .content(employeeJson))
                 .andExpect(status().isOk());
+
+        // confirm changes were made
+        this.mockMvc.perform(get(this.endpoint
+                + this.employeeOne.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(this.employeeOne.getId().intValue())))
+                .andExpect(jsonPath("$.firstName", is("First")))
+                .andExpect(jsonPath("$.middleInitial", is("N")))
+                .andExpect(jsonPath("$.lastName", is("User")))
+                .andExpect(jsonPath("$.dateOfBirth", is("1985-01-02")))
+                .andExpect(jsonPath("$.dateOfEmployment", is("2018-06-03")))
+                .andExpect(jsonPath("$.status", is("ACTIVE")));;
     }
 
     @Test
