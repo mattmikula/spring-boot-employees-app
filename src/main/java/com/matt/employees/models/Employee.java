@@ -1,27 +1,38 @@
 package com.matt.employees.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.annotation.ReadOnlyProperty;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@ApiModel
 public class Employee {
 
     @Id
     @GeneratedValue
     @ReadOnlyProperty
+    @ApiModelProperty(example="1")
     private Long id;
+
+    @ApiModelProperty(example="Bob")
     private String firstName;
+    @ApiModelProperty(example="N")
     private String middleInitial;
+    @ApiModelProperty(example="Ross")
     private String lastName;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @ApiModelProperty(example="1942-10-29")
     private LocalDate dateOfBirth;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @ApiModelProperty(example="2006-06-06")
     private LocalDate dateOfEmployment;
 
+    @ApiModelProperty(example="ACTIVE")
     @Enumerated(EnumType.STRING)
     private EmployeeStatus status;
 

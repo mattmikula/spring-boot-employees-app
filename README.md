@@ -26,8 +26,8 @@ A [postman](https://www.getpostman.com/) collection has been provided in the rep
 You can install postman and import the collection to begin interacting with this server.
 
 ### Documentation
-Documentation can be viewed at the following URL:
-http://localhost:8080/swagger-ui.html
+Please refer to the [formal API documentation](http://localhost:8080/swagger-ui.html) after launching the web server to
+learn how to interact with the application.
 
 Authorization is only required for the delete API call. To use this call, you must use basic authentication with the
 username "user" and a password of "password":
