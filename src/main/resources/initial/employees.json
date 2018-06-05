@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "firstName": "George",
+    "middleInitial": "O",
+    "lastName": "Bluth",
+    "dateOfBirth": "1965-02-02",
+    "dateOfEmployment": "2018-01-01",
+    "status": "ACTIVE"
+  },
+  {
+    "id": 2,
+    "firstName": "Michael",
+    "middleInitial": "M",
+    "lastName": "Bluth",
+    "dateOfBirth": "1967-12-14",
+    "dateOfEmployment": "2018-01-02",
+    "status": "ACTIVE"
+  },
+  {
+    "id": 3,
+    "firstName": "Buster",
+    "middleInitial": "B",
+    "lastName": "Bluth",
+    "dateOfBirth": "1972-02-02",
+    "dateOfEmployment": "2018-01-15",
+    "status": "ACTIVE"
+  }
+]

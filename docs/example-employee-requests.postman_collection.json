@@ -1,0 +1,158 @@
+{
+	"info": {
+		"_postman_id": "5fefb7e1-4178-4b9b-9364-679e63c1e395",
+		"name": "Example Employee Requests",
+		"description": "These are some examples of requests that can be made against the employee application.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get List of Employees",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/employees/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						""
+					]
+				},
+				"description": "Returns a list of all active employees"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Individual Employee",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/employees/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						"1"
+					]
+				},
+				"description": "Returns the employee record matching the supplied ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Employee",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": 1,\n\t\"firstName\": \"Tobias\",\n\t\"middleInitial\": \"O\",\n\t\"lastName\": \"Funke\",\n\t\"dateOfBirth\": \"1966-03-02\",\n    \"dateOfEmployment\": \"2018-02-01\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/employees/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						""
+					]
+				},
+				"description": "Create an Employee record using the supplied payload."
+			},
+			"response": []
+		},
+		{
+			"name": "Update Employee",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"firstName\": \"Michael\",\n    \"middleInitial\": \"M\",\n    \"lastName\": \"Bluth\",\n    \"dateOfBirth\": \"1967-12-14\",\n    \"dateOfEmployment\": \"2018-01-03\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/employees/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						"2"
+					]
+				},
+				"description": "Update the designated employee record with supplied payload."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Employee",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/employees/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"employees",
+						"1"
+					]
+				},
+				"description": "Delete the specified employee. In reality, we simply change the employee's status to \"INACTIVE\". \n\nThis endpoint requires basic authentication using the the credentials of 'user/password'."
+			},
+			"response": []
+		}
+	]
+}
