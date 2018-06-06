@@ -44,8 +44,7 @@ public class EmployeesApplication {
                 mapper.registerModule(new JavaTimeModule());
 
                 try (InputStream inputStream = new ClassPathResource(path).getInputStream()) {
-                    return mapper.readValue(inputStream, new TypeReference<List<Employee>>() {
-                    });
+                    return mapper.readValue(inputStream, new TypeReference<List<Employee>>() {});
                 } catch (IOException e) {
                     System.out.println("Unable to create employees: " + e.getMessage());
                     return Collections.emptyList();
