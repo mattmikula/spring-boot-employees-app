@@ -80,9 +80,12 @@ public class EmployeeControllerTests {
 
         this.employeeRepository.deleteAll();
 
-        this.employeeOne = new Employee("First", "O", "User", LocalDate.parse("1985-01-02"), LocalDate.parse("2018-06-03"), EmployeeStatus.ACTIVE);
-        this.employeeTwo = new Employee("Second", "O", "User", LocalDate.parse("1985-01-02"), LocalDate.parse("2018-06-03"), EmployeeStatus.ACTIVE);
-        this.inactiveEmployee = new Employee("Inactive", "O", "User", LocalDate.parse("1985-01-02"), LocalDate.parse("2018-06-03"), EmployeeStatus.INACTIVE);
+        this.employeeOne = new Employee("First", "O", "User",
+                LocalDate.parse("1985-01-02"), LocalDate.parse("2018-06-03"), EmployeeStatus.ACTIVE);
+        this.employeeTwo = new Employee("Second", "O", "User",
+                LocalDate.parse("1985-01-02"), LocalDate.parse("2018-06-03"), EmployeeStatus.ACTIVE);
+        this.inactiveEmployee = new Employee("Inactive", "O", "User",
+                LocalDate.parse("1985-01-02"), LocalDate.parse("2018-06-03"), EmployeeStatus.INACTIVE);
 
         this.employeeService.save(this.employeeOne);
         this.employeeService.save(this.employeeTwo);
@@ -100,19 +103,19 @@ public class EmployeeControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].id", is(this.employeeOne.getId().intValue())))
-                .andExpect(jsonPath("$[0].firstName", is("First")))
-                .andExpect(jsonPath("$[0].middleInitial", is("O")))
-                .andExpect(jsonPath("$[0].lastName", is("User")))
-                .andExpect(jsonPath("$[0].dateOfBirth", is("1985-01-02")))
-                .andExpect(jsonPath("$[0].dateOfEmployment", is("2018-06-03")))
-                .andExpect(jsonPath("$[0].status", is("ACTIVE")))
+                .andExpect(jsonPath("$[0].firstName", is(this.employeeOne.getFirstName())))
+                .andExpect(jsonPath("$[0].middleInitial", is(this.employeeOne.getMiddleInitial())))
+                .andExpect(jsonPath("$[0].lastName", is(this.employeeOne.getLastName())))
+                .andExpect(jsonPath("$[0].dateOfBirth", is(this.employeeOne.getDateOfBirth().toString())))
+                .andExpect(jsonPath("$[0].dateOfEmployment", is(this.employeeOne.getDateOfEmployment().toString())))
+                .andExpect(jsonPath("$[0].status", is(this.employeeOne.getStatus().toString())))
                 .andExpect(jsonPath("$[1].id", is(this.employeeTwo.getId().intValue())))
-                .andExpect(jsonPath("$[1].firstName", is("Second")))
-                .andExpect(jsonPath("$[1].middleInitial", is("O")))
-                .andExpect(jsonPath("$[1].lastName", is("User")))
-                .andExpect(jsonPath("$[1].dateOfBirth", is("1985-01-02")))
-                .andExpect(jsonPath("$[1].dateOfEmployment", is("2018-06-03")))
-                .andExpect(jsonPath("$[1].status", is("ACTIVE")));
+                .andExpect(jsonPath("$[1].firstName", is(this.employeeTwo.getFirstName())))
+                .andExpect(jsonPath("$[1].middleInitial", is(this.employeeTwo.getMiddleInitial())))
+                .andExpect(jsonPath("$[1].lastName", is(this.employeeTwo.getLastName())))
+                .andExpect(jsonPath("$[1].dateOfBirth", is(this.employeeTwo.getDateOfBirth().toString())))
+                .andExpect(jsonPath("$[1].dateOfEmployment", is(this.employeeTwo.getDateOfEmployment().toString())))
+                .andExpect(jsonPath("$[1].status", is(this.employeeTwo.getStatus().toString())));
     }
 
     /**
@@ -125,12 +128,12 @@ public class EmployeeControllerTests {
                 + this.employeeOne.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(this.employeeOne.getId().intValue())))
-                .andExpect(jsonPath("$.firstName", is("First")))
-                .andExpect(jsonPath("$.middleInitial", is("O")))
-                .andExpect(jsonPath("$.lastName", is("User")))
-                .andExpect(jsonPath("$.dateOfBirth", is("1985-01-02")))
-                .andExpect(jsonPath("$.dateOfEmployment", is("2018-06-03")))
-                .andExpect(jsonPath("$.status", is("ACTIVE")));
+                .andExpect(jsonPath("$.firstName", is(this.employeeOne.getFirstName())))
+                .andExpect(jsonPath("$.middleInitial", is(this.employeeOne.getMiddleInitial())))
+                .andExpect(jsonPath("$.lastName", is(this.employeeOne.getLastName())))
+                .andExpect(jsonPath("$.dateOfBirth", is(this.employeeOne.getDateOfBirth().toString())))
+                .andExpect(jsonPath("$.dateOfEmployment", is(this.employeeOne.getDateOfEmployment().toString())))
+                .andExpect(jsonPath("$.status", is(this.employeeOne.getStatus().toString())));
     }
 
     /**
@@ -150,8 +153,8 @@ public class EmployeeControllerTests {
      */
     @Test
     public void addEmployee() throws Exception {
-        String employeeJson = json(new Employee(
-                "Third", "A", "User", LocalDate.parse("1985-01-02"), LocalDate.parse("2018-06-03"), EmployeeStatus.ACTIVE));
+        String employeeJson = json(new Employee("Third", "A", "User",
+                LocalDate.parse("1985-01-02"), LocalDate.parse("2018-06-03"), EmployeeStatus.ACTIVE));
 
         this.mockMvc.perform(post(this.endpoint)
                 .contentType(this.contentType)
@@ -165,8 +168,10 @@ public class EmployeeControllerTests {
      */
     @Test
     public void updateEmployee() throws Exception {
+        String newMiddleInitial = "N";
         String employeeJson = json(new Employee(
-                "First", "N", "User", LocalDate.parse("1985-01-02"), LocalDate.parse("2018-06-03"), EmployeeStatus.ACTIVE));
+                this.employeeOne.getFirstName(), newMiddleInitial, this.employeeOne.getLastName(), this.employeeOne.getDateOfBirth(),
+                this.employeeOne.getDateOfEmployment(), this.employeeOne.getStatus()));
 
         // confirm update call is accepted.
         this.mockMvc.perform(put(this.endpoint
@@ -180,12 +185,12 @@ public class EmployeeControllerTests {
                 + this.employeeOne.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(this.employeeOne.getId().intValue())))
-                .andExpect(jsonPath("$.firstName", is("First")))
-                .andExpect(jsonPath("$.middleInitial", is("N")))
-                .andExpect(jsonPath("$.lastName", is("User")))
-                .andExpect(jsonPath("$.dateOfBirth", is("1985-01-02")))
-                .andExpect(jsonPath("$.dateOfEmployment", is("2018-06-03")))
-                .andExpect(jsonPath("$.status", is("ACTIVE")));;
+                .andExpect(jsonPath("$.firstName", is(this.employeeOne.getFirstName())))
+                .andExpect(jsonPath("$.middleInitial", is(newMiddleInitial)))
+                .andExpect(jsonPath("$.lastName", is(this.employeeOne.getLastName())))
+                .andExpect(jsonPath("$.dateOfBirth", is(this.employeeOne.getDateOfBirth().toString())))
+                .andExpect(jsonPath("$.dateOfEmployment", is(this.employeeOne.getDateOfEmployment().toString())))
+                .andExpect(jsonPath("$.status", is(this.employeeOne.getStatus().toString())));;
     }
 
     /**
