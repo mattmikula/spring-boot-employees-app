@@ -52,6 +52,7 @@ public class EmployeeControllerTests {
 
     private Employee employeeOne;
     private Employee employeeTwo;
+    private Employee inactiveEmployee;
 
     @Autowired
     private EmployeeService employeeService;
@@ -81,13 +82,16 @@ public class EmployeeControllerTests {
 
         this.employeeOne = new Employee("First", "O", "User", LocalDate.parse("1985-01-02"), LocalDate.parse("2018-06-03"), EmployeeStatus.ACTIVE);
         this.employeeTwo = new Employee("Second", "O", "User", LocalDate.parse("1985-01-02"), LocalDate.parse("2018-06-03"), EmployeeStatus.ACTIVE);
+        this.inactiveEmployee = new Employee("Inactive", "O", "User", LocalDate.parse("1985-01-02"), LocalDate.parse("2018-06-03"), EmployeeStatus.INACTIVE);
 
         this.employeeService.save(this.employeeOne);
         this.employeeService.save(this.employeeTwo);
+        this.employeeService.save(this.inactiveEmployee);
     }
 
     /**
-     * Ensure that we can retrieve a list of all employees and confirm that the data is what is expected.
+     * Ensure that we can retrieve a list of all employees and confirm that the data is what is expected. This should
+     * only return active employees
      * @throws Exception
      */
     @Test
@@ -127,6 +131,17 @@ public class EmployeeControllerTests {
                 .andExpect(jsonPath("$.dateOfBirth", is("1985-01-02")))
                 .andExpect(jsonPath("$.dateOfEmployment", is("2018-06-03")))
                 .andExpect(jsonPath("$.status", is("ACTIVE")));
+    }
+
+    /**
+     * Ensure that we can't retrieve a single employee if that employee is inactive.
+     * @throws Exception
+     */
+    @Test
+    public void getSingleInactiveEmployee() throws Exception {
+        mockMvc.perform(get(this.endpoint
+                + this.inactiveEmployee.getId()))
+                .andExpect(status().isNotFound());
     }
 
     /**
