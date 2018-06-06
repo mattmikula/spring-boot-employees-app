@@ -15,13 +15,13 @@ This application comes preloaded with a few sample records that can be used to q
 Data is persisted in memory using [H2](http://h2database.com/html/main.html), so restarting the server will reset the database.
 
 ### Running application
-After cloning this repo, you can use the included maven wrapper to run the server using the following command:
+After cloning this repo, you can use the included maven wrapper to run the server by calling the following command in the project's root directory:
 ```
 ./mvnw clean spring-boot:run
 ```
 
 The application can also be run using the included Dockerfile. Once you have [Docker](https://www.docker.com/) installed,
-you can run the following commands to run the application:
+you can run the following commands in the project's root directory to start the application:
 ```
 # Build a tagged docker image
 ./mvnw install dockerfile:build
