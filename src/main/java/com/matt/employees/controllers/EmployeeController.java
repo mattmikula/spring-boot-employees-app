@@ -49,11 +49,11 @@ public class EmployeeController {
     }
 
     @ApiOperation(value = "Add an employee")
-    @ApiResponses(value = {@ApiResponse(code = 201, message = "Resource created successfully"),
+    @ApiResponses(value = {@ApiResponse(code = 201, message = "Created", response = Employee.class),
             @ApiResponse(code = 400, message = "Bad Request")})
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addEmployee(@RequestBody Employee input) {
-        this.employeeService.save(
+        Employee newEmployee = this.employeeService.save(
                 new Employee(input.getFirstName(),
                         input.getMiddleInitial(),
                         input.getLastName(),
@@ -61,11 +61,11 @@ public class EmployeeController {
                         input.getDateOfEmployment(),
                         EmployeeStatus.ACTIVE)
         );
-        return new ResponseEntity<>(MapResponseMessage.createMapResponseFromMessage("Resource created successfully"), HttpStatus.CREATED);
+        return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Update an employee")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Resource updated successfully"),
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Resource updated successfully", response = Employee.class),
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 404, message = "Resource not found")})
     @RequestMapping(method = RequestMethod.PUT, value="/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -78,9 +78,8 @@ public class EmployeeController {
                     employee.setDateOfBirth(input.getDateOfBirth());
                     employee.setDateOfEmployment(input.getDateOfEmployment());
                     this.employeeService.save(employee);
-                    return new ResponseEntity<>(MapResponseMessage.createMapResponseFromMessage("Resource updated successfully"), HttpStatus.OK);
-                })
-                .orElse(new ResponseEntity<>(MapResponseMessage.createMapResponseFromMessage("Error updating resource"), HttpStatus.BAD_REQUEST));
+                    return new ResponseEntity(employee, HttpStatus.OK);
+                }).orElse(new ResponseEntity<>(MapResponseMessage.createMapResponseFromMessage("Resource not found"), HttpStatus.NOT_FOUND));
     }
 
     @ApiOperation(value = "Delete an employee",
