@@ -33,8 +33,8 @@ public class EmployeesApplication {
             //
             // Our manager keeps track of the creation methods it allows (strategies) and will choose the appropriate method
             // depending on the path that is passed in to the manager's createEmployees method. If we wanted to add support for
-            // XML files, we would simply use the manager's registerCreator method to supply a strategy to handle creation of
-            // employees from an XML file. Because we are using a Singleton to manage our strategies, we only have to register
+            // XML files, for example, we would simply use the manager's registerCreator method to supply a strategy to handle creation of
+            // employees from that type of file. Because we are using a Singleton to manage our strategies, we only have to register
             // them once instead of each time we wanted to create employees.
             EmployeeCreatorManager.getInstance().registerCreator("json", path -> {
 

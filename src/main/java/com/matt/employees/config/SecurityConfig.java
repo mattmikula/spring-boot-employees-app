@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * Configure our application to only require authorization on the delete employee endpoint.
      *
-     * We set the session creation policy stateless so credentials are required on each request to endpoints
+     * We set the session creation policy to stateless so credentials are required on each request to endpoints
      * requiring auth.
      *
      * @param http
