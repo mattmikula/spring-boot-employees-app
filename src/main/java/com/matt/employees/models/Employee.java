@@ -50,11 +50,11 @@ public class Employee {
     }
 
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
     public void setFirstName(String firstName) {
@@ -62,7 +62,7 @@ public class Employee {
     }
 
     public String getMiddleInitial() {
-        return middleInitial;
+        return this.middleInitial;
     }
 
     public void setMiddleInitial(String middleInitial) {
@@ -70,7 +70,7 @@ public class Employee {
     }
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
     public void setLastName(String lastName) {
@@ -78,7 +78,7 @@ public class Employee {
     }
 
     public LocalDate getDateOfBirth() {
-        return dateOfBirth;
+        return this.dateOfBirth;
     }
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
@@ -86,7 +86,7 @@ public class Employee {
     }
 
     public LocalDate getDateOfEmployment() {
-        return dateOfEmployment;
+        return this.dateOfEmployment;
     }
 
     public void setDateOfEmployment(LocalDate dateOfEmployment) {
@@ -94,7 +94,7 @@ public class Employee {
     }
 
     public EmployeeStatus getStatus() {
-        return status;
+        return this.status;
     }
 
     public void setStatus (EmployeeStatus status) {
