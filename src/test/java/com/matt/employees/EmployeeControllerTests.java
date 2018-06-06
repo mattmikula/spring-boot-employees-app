@@ -86,6 +86,10 @@ public class EmployeeControllerTests {
         this.employeeService.save(this.employeeTwo);
     }
 
+    /**
+     * Ensure that we can retrieve a list of all employees and confirm that the data is what is expected.
+     * @throws Exception
+     */
     @Test
     public void getEmployees() throws Exception {
         mockMvc.perform(get(this.endpoint))
@@ -107,6 +111,10 @@ public class EmployeeControllerTests {
                 .andExpect(jsonPath("$[1].status", is("ACTIVE")));
     }
 
+    /**
+     * Ensure that we can retrieve a single employee by ID and confirm that the data is what we expect.
+     * @throws Exception
+     */
     @Test
     public void getSingleEmployee() throws Exception {
         mockMvc.perform(get(this.endpoint
@@ -121,6 +129,10 @@ public class EmployeeControllerTests {
                 .andExpect(jsonPath("$.status", is("ACTIVE")));
     }
 
+    /**
+     * Confirm that we can add a new employee.
+     * @throws Exception
+     */
     @Test
     public void addEmployee() throws Exception {
         String employeeJson = json(new Employee(
@@ -132,6 +144,10 @@ public class EmployeeControllerTests {
                 .andExpect(status().isCreated());
     }
 
+    /**
+     * Confirm that we can update an existing employee and that the changes persist.
+     * @throws Exception
+     */
     @Test
     public void updateEmployee() throws Exception {
         String employeeJson = json(new Employee(
@@ -157,6 +173,10 @@ public class EmployeeControllerTests {
                 .andExpect(jsonPath("$.status", is("ACTIVE")));;
     }
 
+    /**
+     * Confirm that trying to delete an employee without being authorized isn't allowed.
+     * @throws Exception
+     */
     @Test
     public void deleteEmployeeWithoutAuth() throws Exception {
         this.mockMvc.perform(delete(this.endpoint
@@ -164,6 +184,11 @@ public class EmployeeControllerTests {
                 .andExpect(status().isUnauthorized());
     }
 
+    /**
+     * Confirm that an authorized user can delete an employee. This shouldn't actually delete the employee from our
+     * records and should only mark the employee as INACTIVE.
+     * @throws Exception
+     */
     @Test
     @WithMockUser(username = username, roles = "USER")
     public void deleteEmployee() throws Exception {
@@ -187,7 +212,7 @@ public class EmployeeControllerTests {
      * @return json string of supplied object
      * @throws IOException
      */
-    protected String json(Object o) throws IOException {
+    private String json(Object o) throws IOException {
         MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
         this.mappingJackson2HttpMessageConverter.write(
                 o, MediaType.APPLICATION_JSON, mockHttpOutputMessage);

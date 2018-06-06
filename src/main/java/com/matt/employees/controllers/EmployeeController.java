@@ -94,6 +94,7 @@ public class EmployeeController {
     ResponseEntity<?> deleteEmployee(@PathVariable Long employeeId) {
         return this.employeeService.getActiveEmployee(employeeId)
                 .map(employee -> {
+                    // Don't actually delete the employee record, just set it to inactive.
                     employee.setStatus(EmployeeStatus.INACTIVE);
                     this.employeeService.save(employee);
                     return new ResponseEntity<>(MapResponseMessage.createMapResponseFromMessage("Resource deleted successfully"), HttpStatus.ACCEPTED);
