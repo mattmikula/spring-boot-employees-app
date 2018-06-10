@@ -6,6 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.matt.employees.strategies.EmployeeCreatorManager;
 import com.matt.employees.models.Employee;
 import com.matt.employees.services.EmployeeService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +20,10 @@ import java.util.List;
 
 @SpringBootApplication
 public class EmployeesApplication {
+
+    // File path defined in the application properties that will be used to create initial employee records.
+    @Value("${initial.data.path}")
+    private String initialDataPath;
 
     public static void main(String[] args) {
         SpringApplication.run(EmployeesApplication.class, args);
@@ -51,7 +56,7 @@ public class EmployeesApplication {
                 }
             });
 
-            List<Employee> employees = EmployeeCreatorManager.getInstance().createEmployees("initial/employees.json");
+            List<Employee> employees = EmployeeCreatorManager.getInstance().createEmployees(this.initialDataPath);
 
             employeeService.save(employees);
         };
