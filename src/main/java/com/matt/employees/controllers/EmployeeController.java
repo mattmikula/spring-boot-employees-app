@@ -27,15 +27,27 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
+    /**
+     * Endpoint to return a serialized list of all active employee records.
+     *
+     * @return - {@link ResponseEntity} of {@link Employee} objects
+     */
     @ApiOperation(value = "View a list of all active employees",
             response = Employee.class,
             responseContainer="List")
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Employee> getEmployees() {
-        return this.employeeService.listActiveEmployees();
+    public ResponseEntity<?> getEmployees() {
+        return new ResponseEntity<>(this.employeeService.listActiveEmployees(), HttpStatus.OK);
     }
 
 
+    /**
+     * Endpoint to return a serialized representation of a single {@link Employee} object by ID. If there is no active
+     * employee found with supplied ID, return a NOT FOUND message.
+     *
+     * @param employeeId - ID of employee to retrieve
+     * @return - {@link ResponseEntity} of a serialized {@link Employee} object or of a not found message
+     */
     @ApiOperation(value = "View a specific employee", response = Employee.class)
     @ApiResponses(value = { @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 404, message = "Resource not found") })
@@ -48,6 +60,12 @@ public class EmployeeController {
         return new ResponseEntity<>(employee.get(), HttpStatus.OK);
     }
 
+    /**
+     * Endpoint to handle creating a new employee record.
+     *
+     * @param input - de-serialized {@link RequestBody} based on the user's request
+     * @return - {@link ResponseEntity} containing a serialized representation of the new {@link Employee} object
+     */
     @ApiOperation(value = "Add an employee")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "Created", response = Employee.class),
             @ApiResponse(code = 400, message = "Bad Request")})
@@ -64,6 +82,14 @@ public class EmployeeController {
         return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
     }
 
+    /**
+     * Endpoint to handle updating the specified employee record.
+     *
+     * @param employeeId - ID of employee to update
+     * @param input - de-serialized {@link RequestBody} based on the user's request
+     * @return - {@link ResponseEntity} containing a serialized representation of the updated employee or of a not found
+     * message
+     */
     @ApiOperation(value = "Update an employee")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Resource updated successfully", response = Employee.class),
             @ApiResponse(code = 400, message = "Bad Request"),
@@ -82,6 +108,13 @@ public class EmployeeController {
                 }).orElse(new ResponseEntity<>(MapResponseMessage.createMapResponseFromMessage("Resource not found"), HttpStatus.NOT_FOUND));
     }
 
+    /**
+     * Endpoint to handle marking an employee as inactive.
+     *
+     * @param employeeId - ID of employee to mark as inactive
+     * @return - {@link ResponseEntity} containing a message saying if the delete call was successful or if the resource
+     * was not found
+     */
     @ApiOperation(value = "Delete an employee",
             notes = "Requires Basic Authentication using a username of 'user' and a password of 'password'",
             authorizations = {@Authorization(value="basicAuth")})
