@@ -24,10 +24,10 @@ The application can also be run using the included Dockerfile. Once you have [Do
 you can run the following commands in the project's root directory to start the application:
 ```
 # Build a tagged docker image
-./mvnw install dockerfile:build
+docker build -t employees-app
 
 # Run the tagged image
-docker run -p 8080:8080 -t employees/employees
+docker run -p 8080:8080 -t employees-app
 ```
 
 Both of the above methods will make the server available at http://localhost:8080/employees.
